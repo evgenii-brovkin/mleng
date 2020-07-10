@@ -1,0 +1,24 @@
+# docker run -it --rm --name tsfm-pipeline 
+# -v ${pwd}/data:/app/data:ro 
+# -v ${pwd}/models:/app/models:ro 
+# -v ${pwd}/output:/app/output 
+# tsfm
+
+
+# Bare linux + conda
+FROM frolvlad/alpine-glibc:latest
+LABEL version="0.0.1"
+ARG conda_distrib=miniconda.sh
+ARG conda_install_dir=/miniconda
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ${conda_distrib} \
+    && sh ${conda_distrib} -b -p ${conda_install_dir} && rm ${conda_distrib} \
+    && echo "source ${conda_install_dir}/bin/activate; \$@" > run_conda.sh
+COPY requirements.txt .
+RUN sh run_conda.sh pip install --no-cache-dir -r requirements.txt 
+WORKDIR /app
+COPY . .
+ENTRYPOINT [ "sh", "/run_conda.sh" ]
+CMD [ "python", "pipeline.py", "-d", "data", "-m", "models", "-o", "output" ]
+
+
+# python -c "from transformers import pipeline; print(pipeline('sentiment-analysis')('I hate you'))"

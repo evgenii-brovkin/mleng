@@ -1,0 +1,7 @@
+models
+data
+output
+Dockerfile*
+.*
+*.ipynb
+*.sh

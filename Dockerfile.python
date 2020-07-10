@@ -1,0 +1,19 @@
+# docker run -it --rm --name tsfm-pipeline 
+# -v ${pwd}/data:/app/data:ro 
+# -v ${pwd}/models:/app/models:ro 
+# -v ${pwd}/output:/app/output 
+# tsfm
+
+# !! BROKEN on Alpine!!
+
+# Bare Python
+FROM python:3
+LABEL version="0.0.2"
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+WORKDIR /app
+COPY . .
+CMD [ "python", "pipeline.py", "-d", "data", "-m", "models", "-o", "output" ]
+
+
+# python -c "from transformers import pipeline; print(pipeline('sentiment-analysis')('I hate you'))"

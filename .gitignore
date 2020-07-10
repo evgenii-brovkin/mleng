@@ -1,4 +1,5 @@
 .ipynb_checkpoints
-/models
-/data
-*.h5
+models
+data
+output
+.vscode

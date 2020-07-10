@@ -7,15 +7,22 @@ from sklearn.model_selection import StratifiedKFold
 from transformers import *
 import tokenizers
 
+import argparse
+import os
+
+
+def opj(*args):
+    return os.path.normpath(os.path.join(*args))
+
 
 def build_model(MAX_LEN, PATH):
     ids = tf.keras.layers.Input((MAX_LEN,), dtype=tf.int32)
     att = tf.keras.layers.Input((MAX_LEN,), dtype=tf.int32)
     tok = tf.keras.layers.Input((MAX_LEN,), dtype=tf.int32)
 
-    config = RobertaConfig.from_pretrained(PATH + "config-roberta-base.json")
+    config = RobertaConfig.from_pretrained(opj(PATH, "config-roberta-base.json"))
     bert_model = TFRobertaModel.from_pretrained(
-        PATH + "pretrained-roberta-base.h5", config=config
+        opj(PATH, "pretrained-roberta-base.h5"), config=config
     )
     x = bert_model(ids, attention_mask=att, token_type_ids=tok)
 
@@ -36,17 +43,20 @@ def build_model(MAX_LEN, PATH):
     return model
 
 
-def main():
+def main(args):
     MAX_LEN = 96
-    PATH = "./models/"
+    models_path = args.models_path
+    data_path = args.data_path
+    output_path = args.output_path
+
     tokenizer = tokenizers.ByteLevelBPETokenizer(
-        vocab_file=PATH + "vocab-roberta-base.json",
-        merges_file=PATH + "merges-roberta-base.txt",
+        vocab_file=opj(models_path, "vocab-roberta-base.json"),
+        merges_file=opj(models_path, "merges-roberta-base.txt"),
         lowercase=True,
         add_prefix_space=True,
     )
     sentiment_id = {"positive": 1313, "negative": 2430, "neutral": 7974}
-    train = pd.read_csv("./data/train.csv").fillna("").head()
+    train = pd.read_csv(opj(data_path, "train.csv")).fillna("").head()
 
     ct = train.shape[0]
     input_ids = np.ones((ct, MAX_LEN), dtype="int32")
@@ -85,7 +95,7 @@ def main():
             start_tokens[k, toks[0] + 1] = 1
             end_tokens[k, toks[-1] + 1] = 1
 
-    test = pd.read_csv("./data/test.csv").fillna("").head()
+    test = pd.read_csv(opj(data_path, "test.csv")).fillna("").head()
 
     ct = test.shape[0]
     input_ids_t = np.ones((ct, MAX_LEN), dtype="int32")
@@ -102,9 +112,8 @@ def main():
     DISPLAY = 1  # USE display=1 FOR INTERACTIVE
     preds_start = np.zeros((input_ids_t.shape[0], MAX_LEN))
     preds_end = np.zeros((input_ids_t.shape[0], MAX_LEN))
-
-    model = build_model(MAX_LEN, PATH)
-    model.load_weights(PATH + "v0-roberta-0.h5")
+    model = build_model(MAX_LEN, models_path)
+    model.load_weights(opj(models_path, "v0-roberta-0.h5"))
     preds = model.predict(
         [input_ids_t, attention_mask_t, token_type_ids_t], verbose=DISPLAY
     )
@@ -124,8 +133,13 @@ def main():
         all.append(st)
 
     test["selected_text"] = all
-    test[["textID", "selected_text"]].to_csv("submission.csv", index=False)
+    test[["textID", "selected_text"]].to_csv(opj(output_path, "submission.csv"), index=False)
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--models_path", "-m", default="./models")
+    parser.add_argument("--data_path", "-d", default="./data")
+    parser.add_argument("--output_path", "-o", default="./output")
+    args = parser.parse_args()
+    main(args)
