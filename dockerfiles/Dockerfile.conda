@@ -1,5 +1,6 @@
 # !! Conda is not activated in pipeline
 # !! Miniconda with Python 2 only
+# ! Don't use this file. For experimenting only.
 
 FROM continuumio/miniconda
 LABEL version="0.0.3"
@@ -7,4 +8,4 @@ COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
 WORKDIR /app
 COPY . .
-CMD [ "python", "pipeline.py", "-d", "data", "-m", "models", "-o", "output" ]
+CMD [ "python", "scripts/inference.py", "-d", "data", "-m", "models", "-o", "output" ]

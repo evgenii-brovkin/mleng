@@ -5,4 +5,4 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 WORKDIR /app
 COPY . .
-CMD [ "python", "pipeline.py", "-d", "data", "-m", "models", "-o", "output" ]
+CMD [ "python", "scripts/inference.py", "-d", "data", "-m", "models", "-o", "output" ]
