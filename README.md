@@ -21,7 +21,11 @@ docker build -t tsfm -f Dockerfile .
 Run the container with (note that you must mount three folders: data, models, output)
 
 ```shell
-docker run -it --rm --name tsfm-pipeline -v ${pwd}/data:/app/data:ro -v ${pwd}/models:/app/models:ro -v ${pwd}/output:/app/output tsfm
+docker run -it --rm --name tsfm-pipeline  
+-v ${pwd}/data:/home/ds/app/data:ro  
+-v ${pwd}/models:/home/ds/app/models:ro  
+-v ${pwd}/output:/home/ds/app/output  
+tsfm
 ```
 
 Optionally, check the correctness of build using simple transformers pipeline:
