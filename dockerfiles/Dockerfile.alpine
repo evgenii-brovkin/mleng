@@ -1,5 +1,5 @@
 # Bare linux + conda
-FROM frolvlad/alpine-glibc:latest
+FROM frolvlad/alpine-glibc:alpine-3.12_glibc-2.31
 LABEL version="0.0.1"
 ARG conda_distrib=miniconda.sh
 ARG conda_install_dir=/miniconda

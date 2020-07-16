@@ -2,7 +2,7 @@
 # !! Miniconda with Python 2 only
 # ! Don't use this file. For experimenting only.
 
-FROM continuumio/miniconda
+FROM continuumio/miniconda:4.7.12
 LABEL version="0.0.3"
 COPY requirements.txt .
 RUN pip3 install --no-cache-dir -r requirements.txt
