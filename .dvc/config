@@ -1,0 +1,4 @@
+[core]
+    remote = tmp_remote
+['remote "tmp_remote"']
+    url = ../../tmp/dvc_store
