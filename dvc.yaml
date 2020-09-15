@@ -1,0 +1,10 @@
+stages:
+  filter:
+    cmd: python scripts/filter.py data/data.csv
+    deps:
+    - data/data.csv
+    - scripts/filter.py
+    params:
+    - filter.date
+    outs:
+    - data/filtered

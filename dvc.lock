@@ -1,0 +1,13 @@
+filter:
+  cmd: python scripts/filter.py data/data.csv
+  deps:
+  - path: data/data.csv
+    md5: 3715c6f6084d5831c447941737660716
+  - path: scripts/filter.py
+    md5: 2a26dfedff5e8905eb77c96ed874633d
+  params:
+    params.yaml:
+      filter.date: '2013-04-01'
+  outs:
+  - path: data/filtered
+    md5: 85b98ce4a03997c8669c8d52beb4d18c.dir
