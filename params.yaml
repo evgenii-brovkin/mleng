@@ -5,6 +5,11 @@ feature_extraction:
   max_features: 500
   ngrams: 1
 
+train_test_split:
+  seed: 32
+  test_size: 0.2
+
 train:
-  seed: 20170428
-  n_estimators: 50
+  seed: 32
+  Cs: 10
+  penalty: "elasticnet"

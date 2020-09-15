@@ -4,3 +4,5 @@ data/*
 output/*
 .vscode
 !data/*.dvc
+/models
+/results

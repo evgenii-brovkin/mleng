@@ -31,3 +31,40 @@ feature_extraction:
   outs:
   - path: data/features
     md5: 0bf3bfd9be06366c3f3d88479de16653.dir
+train_test_split:
+  cmd: python scripts/train_test_split.py data/features/features.pkl data/splitted/parsed.csv
+  deps:
+  - path: data/features/features.pkl
+    md5: f622513518d58c63bedba4e3b4142172
+  - path: data/splitted/parsed.csv
+    md5: 599c350cb6f067c048fa47ac97bc2801
+  - path: scripts/train_test_split.py
+    md5: 17b96168a75487d43020b155e71010fa
+  outs:
+  - path: data/test
+    md5: c33832451050b66cce176cf9b9d53a13.dir
+  - path: data/train
+    md5: 0b202087a06457f5691cc64ffb4d88d5.dir
+train:
+  cmd: python scripts/train.py data/train/train_pairs.pkl models/LogRegElasticNet.pkl
+  deps:
+  - path: data/train/train_pairs.pkl
+    md5: e3917bd7132d6bfb198a223b30d53dfe
+  - path: scripts/train.py
+    md5: ec1aeda1fcdb20b42eeb52c01c0dd281
+  outs:
+  - path: models
+    md5: 1ce44bffcf51418197da05600549fa70.dir
+evaluate:
+  cmd: python scripts/evaluate.py models/LogRegElasticNet.pkl data/test/test_pairs.pkl
+    results/logreg_scores.json
+  deps:
+  - path: data/test/test_pairs.pkl
+    md5: 6911c9b7cf4c4b7598375fe268f486ff
+  - path: models/LogRegElasticNet.pkl
+    md5: 29fa66560debbcc1b3d90f40b761ae1a
+  - path: scripts/evaluate.py
+    md5: cc668497898dc792ae5ea80df22480af
+  outs:
+  - path: results
+    md5: 76f102898af69674f97cd2a53d0b4039.dir

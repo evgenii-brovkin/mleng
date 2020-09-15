@@ -22,3 +22,28 @@ stages:
     - scripts/featurization.py
     outs:
     - data/features
+  train_test_split:
+    cmd: python scripts/train_test_split.py data/features/features.pkl data/splitted/parsed.csv
+    deps:
+    - data/features/features.pkl
+    - data/splitted/parsed.csv
+    - scripts/train_test_split.py
+    outs:
+    - data/test
+    - data/train
+  train:
+    cmd: python scripts/train.py data/train/train_pairs.pkl models/LogRegElasticNet.pkl
+    deps:
+    - data/train/train_pairs.pkl
+    - scripts/train.py
+    outs:
+    - models
+  evaluate:
+    cmd: python scripts/evaluate.py models/LogRegElasticNet.pkl data/test/test_pairs.pkl
+      results/logreg_scores.json
+    deps:
+    - data/test/test_pairs.pkl
+    - models/LogRegElasticNet.pkl
+    - scripts/evaluate.py
+    outs:
+    - results

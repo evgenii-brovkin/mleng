@@ -8,7 +8,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 
 
 def extract_text_features(input_data_path, output, max_features, ngrams):
-    df = pd.read_csv(input_data_path, encoding='cp1251')
+    df = pd.read_csv(input_data_path)
     tfidf = TfidfVectorizer(ngram_range=(1, ngrams), max_features=max_features)
     features = tfidf.fit_transform(df.report)
     with open(output, 'wb') as f:
@@ -25,10 +25,10 @@ if __name__ == '__main__':
         sys.exit(1)
 
     text_input = sys.argv[1]
-    output = os.path.join('features', 'features.pkl')
+    output = os.path.join('data', 'features', 'features.pkl')
 
     max_features = params['max_features']
     ngrams = params['ngrams']
     
-    os.makedirs(os.path.join('data', 'filtered'), exist_ok=True)
-    extract_text_features(input, output, max_features=max_features, ngrams=ngrams)
+    os.makedirs(os.path.join('data', 'features'), exist_ok=True)
+    extract_text_features(text_input, output, max_features=max_features, ngrams=ngrams)
