@@ -28,6 +28,10 @@ feature_extraction:
     md5: 7a8f80c41c8de123685774eec20a1b32
   - path: scripts/featurization.py
     md5: 69b3833f032328baccca3c78cd8fa757
+  params:
+    params.yaml:
+      feature_extraction.max_features: 500
+      feature_extraction.ngrams: 1
   outs:
   - path: data/features
     md5: 0bf3bfd9be06366c3f3d88479de16653.dir
@@ -39,7 +43,11 @@ train_test_split:
   - path: data/splitted/parsed.csv
     md5: 599c350cb6f067c048fa47ac97bc2801
   - path: scripts/train_test_split.py
-    md5: 17b96168a75487d43020b155e71010fa
+    md5: 6990b5ce945f08f40626d29ee8c83e30
+  params:
+    params.yaml:
+      train_test_split.seed: 32
+      train_test_split.test_size: 0.2
   outs:
   - path: data/test
     md5: c33832451050b66cce176cf9b9d53a13.dir
@@ -52,6 +60,11 @@ train:
     md5: e3917bd7132d6bfb198a223b30d53dfe
   - path: scripts/train.py
     md5: ec1aeda1fcdb20b42eeb52c01c0dd281
+  params:
+    params.yaml:
+      train.Cs: 10
+      train.penalty: elasticnet
+      train.seed: 32
   outs:
   - path: models
     md5: 1ce44bffcf51418197da05600549fa70.dir

@@ -22,6 +22,9 @@ stages:
     - scripts/featurization.py
     outs:
     - data/features
+    params:
+    - feature_extraction.max_features
+    - feature_extraction.ngrams
   train_test_split:
     cmd: python scripts/train_test_split.py data/features/features.pkl data/splitted/parsed.csv
     deps:
@@ -31,6 +34,9 @@ stages:
     outs:
     - data/test
     - data/train
+    params:
+    - train_test_split.seed
+    - train_test_split.test_size
   train:
     cmd: python scripts/train.py data/train/train_pairs.pkl models/LogRegElasticNet.pkl
     deps:
@@ -38,6 +44,10 @@ stages:
     - scripts/train.py
     outs:
     - models
+    params:
+    - train.Cs
+    - train.penalty
+    - train.seed
   evaluate:
     cmd: python scripts/evaluate.py models/LogRegElasticNet.pkl data/test/test_pairs.pkl
       results/logreg_scores.json
