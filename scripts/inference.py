@@ -136,10 +136,63 @@ def main(args):
     test[["textID", "selected_text"]].to_csv(opj(output_path, "submission.csv"), index=False)
 
 
+def runQnA():
+    from transformers.pipelines import pipeline
+
+    model_name = "deepset/roberta-base-squad2"
+    model_name = "distilbert-base-cased-distilled-squad"
+    # model_name = "https://huggingface.co/deepset/roberta-base-squad2"
+    # Get predictions
+    print('Building pipeline...', end='')
+    nlp = pipeline('question-answering', model=model_name, tokenizer=model_name)
+    print('Done')
+
+    old_c = None
+    print('Ready for questions!')
+    while True:
+        q = input('Input your question:')
+        if q == 'exit':
+            exit(0)
+        
+        c = input('Input context:')
+        if c == 'exit':
+            exit(0)
+        
+        if q == 'test' and c == 'test':
+            res = nlp({
+                'question': 'Why is model conversion important?',
+                'context': 'The option to convert models between FARM and transformers gives freedom to the user and let people easily switch between frameworks.'
+            })
+            print(f'Answer: {res["answer"]}')
+            continue
+        
+        if c == '':
+            if old_c is not None:
+                c = old_c
+            else:
+                print('No previous context available')
+                continue
+        res = nlp({
+            'question': q,
+            'context': c
+        })
+        old_c = c
+        print(f'Answer: {res["answer"]}')
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--models_path", "-m", default="./models")
     parser.add_argument("--data_path", "-d", default="./data")
     parser.add_argument("--output_path", "-o", default="./output")
     args = parser.parse_args()
-    main(args)
+    # main(args)
+    while True:
+        try:
+            runQnA()
+        except KeyboardInterrupt:
+            print('My job here is done.')
+            break
+        except KeyError:
+            print('I do not have the answer for that.')
+
+
