@@ -1,0 +1,10 @@
+filter:
+  date: '2013-04-01'
+
+feature_extraction:
+  max_features: 500
+  ngrams: 1
+
+train:
+  seed: 20170428
+  n_estimators: 50
