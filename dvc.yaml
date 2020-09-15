@@ -8,3 +8,17 @@ stages:
     - filter.date
     outs:
     - data/filtered
+  split:
+    cmd: python scripts/split.py data/filtered/filtered.csv
+    deps:
+    - data/filtered/filtered.csv
+    - scripts/split.py
+    outs:
+    - data/splitted
+  feature_extraction:
+    cmd: python scripts/featurization.py data/splitted/report.csv
+    deps:
+    - data/splitted/report.csv
+    - scripts/featurization.py
+    outs:
+    - data/features

@@ -11,3 +11,23 @@ filter:
   outs:
   - path: data/filtered
     md5: 85b98ce4a03997c8669c8d52beb4d18c.dir
+split:
+  cmd: python scripts/split.py data/filtered/filtered.csv
+  deps:
+  - path: data/filtered/filtered.csv
+    md5: cbe4e89c203a67cada75563db2fc367a
+  - path: scripts/split.py
+    md5: b024a5c07cd993c99e40ae18744005c3
+  outs:
+  - path: data/splitted
+    md5: bf87b88502bf8c07dbe74f4e92fe47bd.dir
+feature_extraction:
+  cmd: python scripts/featurization.py data/splitted/report.csv
+  deps:
+  - path: data/splitted/report.csv
+    md5: 7a8f80c41c8de123685774eec20a1b32
+  - path: scripts/featurization.py
+    md5: 69b3833f032328baccca3c78cd8fa757
+  outs:
+  - path: data/features
+    md5: 0bf3bfd9be06366c3f3d88479de16653.dir
