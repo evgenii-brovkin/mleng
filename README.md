@@ -64,10 +64,10 @@ Described states have been produced via the next commands:
 #### Split:
 `dvc run -n split -d scripts/split.py -d data/filtered/filtered.csv -o data/splitted python scripts/split.py data/filtered/filtered.csv`
 #### Feature extraction:
-`dvc run -n feature_extraction -d scripts/featurization.py -d data/splitted/report.csv -o data/features python scripts/featurization.py data/splitted/report.csv`
+`dvc run -n feature_extraction -p feature_extraction.max_features,feature_extraction.ngrams -d scripts/featurization.py -d data/splitted/report.csv -o data/features python scripts/featurization.py data/splitted/report.csv`
 #### Train/test split:
-`dvc run -n train_test_split -d scripts/train_test_split.py -d data/splitted/parsed.csv -d data/features/features.pkl -o data/train -o data/test python scripts/train_test_split.py data/features/features.pkl data/splitted/parsed.csv`
+`dvc run -n train_test_split -p train_test_split.seed,train_test_split.test_size -d scripts/train_test_split.py -d data/splitted/parsed.csv -d data/features/features.pkl -o data/train -o data/test python scripts/train_test_split.py data/features/features.pkl data/splitted/parsed.csv`
 #### Training:
-`dvc run -n train -d scripts/train.py -d data/train/train_pairs.pkl -o models python scripts/train.py data/train/train_pairs.pkl models/LogRegElasticNet.pkl`
+`dvc run -n train -p train.seed,train.Cs,train.penalty -d scripts/train.py -d data/train/train_pairs.pkl -o models python scripts/train.py data/train/train_pairs.pkl models/LogRegElasticNet.pkl`
 #### Evaluation:
 `dvc run -n evaluate -d scripts/evaluate.py -d data/test/test_pairs.pkl -d models/LogRegElasticNet.pkl -o data/results python scripts/evaluate.py models/LogRegElasticNet.pkl data/test/test_pairs.pkl results/logreg_scores.json`
