@@ -4,7 +4,7 @@ import numpy as np
 import tensorflow as tf
 from sklearn.model_selection import StratifiedKFold
 
-from transformers import *
+from transformers import RobertaConfig, TFRobertaModel
 import tokenizers
 
 import argparse
@@ -61,7 +61,6 @@ def main(args):
     ct = train.shape[0]
     input_ids = np.ones((ct, MAX_LEN), dtype="int32")
     attention_mask = np.zeros((ct, MAX_LEN), dtype="int32")
-    token_type_ids = np.zeros((ct, MAX_LEN), dtype="int32")
     start_tokens = np.zeros((ct, MAX_LEN), dtype="int32")
     end_tokens = np.zeros((ct, MAX_LEN), dtype="int32")
 
