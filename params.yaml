@@ -2,7 +2,7 @@ filter:
   date: '2013-04-01'
 
 feature_extraction:
-  max_features: 500
+  max_features: 20
   ngrams: 1
 
 train_test_split:
