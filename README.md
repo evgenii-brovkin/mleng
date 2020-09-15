@@ -56,6 +56,9 @@ The pipeline consist of several steps:
 - Data filtering by date
 - Splitting raw data into text and parsed parts
 - Extracting text features from reports
+- Train\test split
+- Train linear model
+- Evaluate and sae metrics for comparison
 
 Described states have been produced via the next commands:
 
