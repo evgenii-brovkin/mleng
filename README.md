@@ -70,4 +70,4 @@ Described states have been produced via the next commands:
 #### Training:
 `dvc run -n train -p train.seed,train.Cs,train.penalty -d scripts/train.py -d data/train/train_pairs.pkl -o models python scripts/train.py data/train/train_pairs.pkl models/LogRegElasticNet.pkl`
 #### Evaluation:
-`dvc run -n evaluate -d scripts/evaluate.py -d data/test/test_pairs.pkl -d models/LogRegElasticNet.pkl -o data/results python scripts/evaluate.py models/LogRegElasticNet.pkl data/test/test_pairs.pkl results/logreg_scores.json`
+`dvc run -n evaluate -d scripts/evaluate.py -d data/test/test_pairs.pkl -d models/LogRegElasticNet.pkl -M results/logreg_scores.json python scripts/evaluate.py models/LogRegElasticNet.pkl data/test/test_pairs.pkl results/logreg_scores.json`
