@@ -66,5 +66,5 @@ evaluate:
   - path: scripts/evaluate.py
     md5: cc668497898dc792ae5ea80df22480af
   outs:
-  - path: results
-    md5: 76f102898af69674f97cd2a53d0b4039.dir
+  - path: results/logreg_scores.json
+    md5: 4731aaaaeedee74f53e42abd626c7f86

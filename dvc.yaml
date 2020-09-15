@@ -45,5 +45,6 @@ stages:
     - data/test/test_pairs.pkl
     - models/LogRegElasticNet.pkl
     - scripts/evaluate.py
-    outs:
-    - results
+    metrics:
+    - results/logreg_scores.json:
+        cache: false
