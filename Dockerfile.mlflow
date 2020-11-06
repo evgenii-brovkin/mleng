@@ -1,0 +1,11 @@
+FROM python:3.8.6-buster
+
+RUN pip3 install --no-cache-dir mlflow
+
+ARG USER_ID=1000
+RUN useradd -M --no-log-init --system  --uid ${USER_ID} appuser
+
+USER appuser
+WORKDIR /mlflow
+
+CMD ["mlflow", "server", "--host", "0.0.0.0"]

@@ -1,7 +1,9 @@
-models
-data
-output
-Dockerfile*
 .*
+data
+dockerfiles
+Dockerfile*
+models
+notebooks
+output
 *.ipynb
 *.sh
