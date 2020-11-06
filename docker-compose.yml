@@ -4,7 +4,7 @@ services:
         build:
             context: . 
             dockerfile: Dockerfile.mlflow
-        image: mlflow:latest
+        image: saldern/mlflow-server:latest
         container_name: mlflow-server
         networks: 
             - frontend
@@ -15,7 +15,7 @@ services:
 
     nginx:
         build: ./nginx
-        image: mlflow-nginx:latest
+        image: saldern/mlflow-nginx:latest
         container_name: mlflow-nginx
         ports:
             - "80:80"
