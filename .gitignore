@@ -1,7 +1,8 @@
 .ipynb_checkpoints
+.mypy*
+.vscode
 models/*
 data/*
 output/*
-.vscode
-!data/*.dvc
-/models
+models
+mlruns
