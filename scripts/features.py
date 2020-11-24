@@ -31,6 +31,11 @@ class FeaturePreparation:
         )
         time.sleep(0.5)
 
+    def pipeline(self, raw_data_path, ingested_data_path, splitted_data_path, prepared_data_path):
+        self.ingest(raw_data_path, ingested_data_path)
+        self.split(ingested_data_path, splitted_data_path)
+        self.prepare(splitted_data_path, prepared_data_path)
+
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("features")
