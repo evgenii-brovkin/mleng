@@ -1,4 +1,4 @@
-name: MLEng Course
+name: mleng_project # name must be lowercase and not contain spaces
 
 docker_env:
    image: app:latest
@@ -27,9 +27,9 @@ entry_points:
   tune:
     parameters:
       prepared_data_path: {type: uri, default: "s3a://bucket/processed/prepared"}
-    command: "python features.py split {ingested_data_path}"
+    command: "python model.py tune {ingested_data_path}"
   eval:
     parameters:
       prepared_data_path: {type: uri, default: "s3a://bucket/processed/split"}
       model_output_path: {type: uri, default: "s3a://bucket/model_output"}
-    command: "python features.py prepare {prepared_data_path} {model_output_path}"
+    command: "python model.py eval {prepared_data_path} {model_output_path}"
