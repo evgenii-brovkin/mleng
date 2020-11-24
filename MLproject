@@ -1,0 +1,35 @@
+name: MLEng Course
+
+docker_env:
+   image: app:latest
+
+entry_points:
+  ingest:
+    parameters:
+      raw_data_path: {type: uri, default: "s3a://3rd_party/raw_data"}
+      ingested_data_path: {type: uri, default: "s3a://bucket/ingested"}
+    command: "python features.py ingest {raw_data_path} {ingested_data_path}"
+  split:
+    parameters:
+      ingested_data_path: {type: uri, default: "s3a://bucket/ingested"}
+      splitted_data_path: {type: uri, default: "s3a://bucket/processed/split"}
+    command: "python features.py split {ingested_data_path} {splitted_data_path}"
+  prepare:
+    parameters:
+      splitted_data_path: {type: uri, default: "s3a://bucket/processed/split"}
+      prepared_data_path: {type: uri, default: "s3a://bucket/processed/prepared"}
+    command: "python features.py prepare {splitted_data_path} {prepared_data_path}"
+  train:
+    parameters:
+      prepared_data_path: {type: uri, default: "s3a://bucket/processed/prepared"}
+      save_model_path: {type: uri, default: "s3a://bucket/models"}
+    command: "python model.py train {prepared_data_path} {save_model_path}"
+  tune:
+    parameters:
+      prepared_data_path: {type: uri, default: "s3a://bucket/processed/prepared"}
+    command: "python features.py split {ingested_data_path}"
+  eval:
+    parameters:
+      prepared_data_path: {type: uri, default: "s3a://bucket/processed/split"}
+      model_output_path: {type: uri, default: "s3a://bucket/model_output"}
+    command: "python features.py prepare {prepared_data_path} {model_output_path}"
