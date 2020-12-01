@@ -1,6 +1,6 @@
 FROM python:3.8.6-slim
 
-RUN pip3 install --no-cache-dir mlflow
+RUN pip3 install --no-cache-dir mlflow==1.11.0
 
 ARG USER_ID=1000
 RUN useradd -M --no-log-init --system  --uid ${USER_ID} appuser
