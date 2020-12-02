@@ -21,6 +21,8 @@ services:
         networks:
             - frontend
             - backend
+        depends_on: 
+            - web
     ftp:
         environment:
             FTP_USER_NAME: mlflow
