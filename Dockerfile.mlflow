@@ -3,9 +3,9 @@ FROM python:3.8.6-slim
 RUN pip3 install --no-cache-dir mlflow==1.11.0
 
 ARG USER_ID=1000
-RUN useradd -M --no-log-init --system  --uid ${USER_ID} appuser
+RUN useradd -M --no-log-init --system  --uid ${USER_ID} mlflow
 
-USER appuser
+USER mlflow
 WORKDIR /mlflow
 
-CMD ["mlflow", "server", "--host", "0.0.0.0"]
+CMD ["mlflow", "server", "--host", "0.0.0.0", "--default-artifact-root", "ftp://mlflow:mlflow@localhost"]

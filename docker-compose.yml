@@ -6,24 +6,37 @@ services:
             dockerfile: Dockerfile.mlflow
         image: saldern/mlflow-server:latest
         container_name: mlflow-server
-        networks: 
-            - frontend
+        volumes:
+            - "./mlruns:/mlflow/mlruns"
         expose: 
             - "5000"
-        volumes:
-            - "./mlruns:/mlflow/mlruns:rw"
-
+        networks: 
+            - backend
     nginx:
         build: ./nginx
         image: saldern/mlflow-nginx:latest
         container_name: mlflow-nginx
         ports:
-            - "80:80"
+            - "5000:80"
         networks:
             - frontend
-        depends_on:
-            - web
-
-
+            - backend
+    ftp:
+        environment:
+            FTP_USER_NAME: mlflow
+            FTP_USER_PASS: mlflow
+            FTP_USER_HOME: /home/mlflow
+            PUBLICHOST: localhost
+        image: stilliard/pure-ftpd
+        container_name: mlflow-artifacts
+        volumes:
+            - "./mlruns:/home/mlflow"
+        ports:
+            - "21:21"
+            - "30000-30009:30000-30009"
+        networks:
+            - frontend
+            - backend
 networks: 
   frontend:
+  backend:
